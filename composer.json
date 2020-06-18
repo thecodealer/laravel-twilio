@@ -1,0 +1,25 @@
+{
+    "name": "thecodealer/laravel-twilio",
+    "description": "Laravel package for Twilio",
+    "require": {
+        "twilio/sdk": "^6.7"
+    },
+    "authors": [
+        {
+            "name": "Isa",
+            "email": "thecodealer@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "TheCodealer\\LaravelTwilio\\": "src/app"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "TheCodealer\\LaravelTwilio\\Providers\\TheCodealerLaravelTwilioServiceProvider"
+            ]
+        }
+    }
+}
