@@ -15,7 +15,6 @@ use Twilio\TwiML\VoiceResponse;
 class Twilio extends Controller {
     public function callGatherResponse(Request $request) {
         $response = new VoiceResponse();
-        $response->say('Hello');
         $response->dial(Config::getConfig('call_center_number'), [
             'answerOnBridge' => 'true',
             'record' => 'record-from-answer'
@@ -30,6 +29,18 @@ class Twilio extends Controller {
             $event->name = $request->CallStatus;
             $event->raw_response = json_encode($request->input());
             $event->save();
+
+            if ($event->name == 'completed') {
+                $call = Call::where('sid', $event->sid)->first();
+                if ($call) {
+                    $call->duration = $request->CallDuration;
+                    try {
+                        $call->save();
+                    }
+                    catch(\Exception $e) {
+                    }
+                }
+            }
         }
     }
 }

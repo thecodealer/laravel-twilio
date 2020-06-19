@@ -22,6 +22,8 @@ class TheCodealerLaravelTwilioServiceProvider extends ServiceProvider {
     public function register() {
         $this->mergeConfigFrom(Config::getBaseDir() . '/config/twilio.php', 'twilio');
         $this->mergeConfigFrom(Config::getBaseDir() . '/config/config.php', 'thecodealer-laravel-twilio-config');
-        define('TheCodealerLaravelTwilioTablePrefix', Config::getConfig('table_prefix'));
+        if (!defined('TheCodealerLaravelTwilioTablePrefix')) {
+            define('TheCodealerLaravelTwilioTablePrefix', Config::getConfig('table_prefix'));
+        }
     }
 }

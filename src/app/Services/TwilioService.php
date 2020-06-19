@@ -7,8 +7,9 @@ use Twilio\Rest\Client;
 use TheCodealer\LaravelTwilio\Models\CallRequest;
 use TheCodealer\LaravelTwilio\Models\Call;
 use TheCodealer\LaravelTwilio\Traits\ConfigTrait as Config;
+use TheCodealer\LaravelTwilio\Traits\SendingProfileTrait;
 
-trait TwilioService {
+class TwilioService {
     public static function client() {
         return new Client(config('twilio.sid'), config('twilio.token'));
     }
@@ -23,36 +24,27 @@ trait TwilioService {
         }
 
         $client = self::client();
-        $sending_profile = self::getCallingSendingProfile($profile);
-        $options = $sending_profile->getOptions();
+        if ($sending_profile = SendingProfileTrait::getCallingProfile($profile)) {
+            $options = $sending_profile->getOptions();
 
-        try {
-            $create = $client->calls->create($to, $from, $options);
-            if (isset($create->sid)) {
-                $call = new Call;
-                $call->sid = $create->sid;
-                if (isset($call_request)) {
-                    $call->call_request_id = $call_request->id;
+            try {
+                $create = $client->calls->create($to, $from, $options);
+                if (isset($create->sid)) {
+                    $call = new Call;
+                    $call->sid = $create->sid;
+                    if (isset($call_request)) {
+                        $call->call_request_id = $call_request->id;
+                    }
+                    $call->raw_response = json_encode($create->toArray());
+                    $call->save();
+
+                    $call_request->status = 'requested';
+                    $call_request->save();
                 }
-                $call->save();
-
-                $call_request->status = 'requested';
-                $call_request->save();
             }
-        }
-        catch(Exception $e) {
-            print_r($e->getMessage());
-        }
-    }
-
-    public static function getCallingSendingProfile($name = null) {
-        if (!$name) {
-            $name = Config::getConfig('default_calling_profile');
-        }
-        $class = Config::getConfig('calling_profiles.' . $name);
-
-        if (class_exists($class)) {
-            return $profile = new $class;
+            catch(\Exception $e) {
+                print_r($e->getMessage());
+            }
         }
     }
 }

@@ -17,6 +17,8 @@ class CreateCallsTable extends Migration {
             $table->id();
             $table->integer('call_request_id')->unsigned()->nullable()->index();
             $table->string('sid', 50)->unique();
+            $table->integer('duration')->unsigned()->nullable()->index();
+            $table->text('raw_response');
             $table->timestamps();
             $table->softDeletes('deleted_at', 0);
         });

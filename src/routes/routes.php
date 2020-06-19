@@ -12,5 +12,5 @@ Route::name('thecodealerlaraveltwilio.')->prefix('thecodealerlaraveltwilio')->na
         Route::name('zapier.')->prefix('zapier')->group(function(){
             Route::get('/lead', 'Zapier@lead')->name('lead');
         });
-    });    
+    });
 });

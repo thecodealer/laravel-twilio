@@ -17,7 +17,7 @@ class CreateCallEventsTable extends Migration {
             $table->id();
             $table->string('sid', 50)->index();
             $table->string('name', 20)->index();
-            $table->json('raw_response')->nullable();
+            $table->text('raw_response');
         });
     }
 
