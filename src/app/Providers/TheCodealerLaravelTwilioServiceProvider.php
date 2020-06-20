@@ -6,6 +6,7 @@ use Illuminate\Support\ServiceProvider;
 
 use TheCodealer\LaravelTwilio\Traits\ConfigTrait as Config;
 use TheCodealer\LaravelTwilio\Commands\ProcessCallRequests;
+use TheCodealer\LaravelTwilio\Commands\RetryCallRequests;
 
 class TheCodealerLaravelTwilioServiceProvider extends ServiceProvider {
     public function boot() {
@@ -14,6 +15,7 @@ class TheCodealerLaravelTwilioServiceProvider extends ServiceProvider {
         if ($this->app->runningInConsole()) {
             $this->commands([
                 ProcessCallRequests::class,
+                RetryCallRequests::class,
             ]);
         }
 

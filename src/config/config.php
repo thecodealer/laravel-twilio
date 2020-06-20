@@ -11,4 +11,5 @@ return [
     'call_status_callback_url' => env('THE_CODEALER_LARAVEL_TWILIO_CALL_STATUS_CALLBACK_URL'),
     'call_gather_response_url' => env('THE_CODEALER_LARAVEL_TWILIO_CALL_GATHER_RESPONSE_URL'),
     'call_twiml_url' => env('THE_CODEALER_LARAVEL_TWILIO_CALL_TWIML_URL'),
+    'call_retry_hours' => env('THE_CODEALER_LARAVEL_TWILIO_CALL_RETRY_HOURS'),
 ];
