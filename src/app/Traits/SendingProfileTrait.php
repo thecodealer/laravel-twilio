@@ -36,11 +36,11 @@ trait SendingProfileTrait {
         $this->data = $data;
     }
 
-    public static function getCallingProfile($name = null) {
-        return self::getProfile($name, 'call');
+    public static function getCallingProfile($name = null, $args = []) {
+        return self::getProfile($name, 'call', $args);
     }
 
-    private static function getProfile($name = null, $type = 'call') {
+    private static function getProfile($name = null, $type = 'call', $args = []) {
         $type_name = $type . 'ing';
         if (!$name) {
             $name = ConfigTrait::getConfig("default_{$type_name}_profile");
@@ -48,7 +48,7 @@ trait SendingProfileTrait {
         $class = ConfigTrait::getConfig("{$type_name}_profiles." . $name);
 
         if (class_exists($class)) {
-            return $profile = new $class;
+            return $profile = new $class($args);
         }
     }
 }

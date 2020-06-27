@@ -24,7 +24,11 @@ class TwilioService {
         }
 
         $client = self::client();
-        if ($sending_profile = SendingProfileTrait::getCallingProfile($profile)) {
+        $profile_options = [];
+        if (isset($call_request)) {
+            $profile_options['call_request'] = $call_request;
+        }
+        if ($sending_profile = SendingProfileTrait::getCallingProfile($profile, $profile_options)) {
             $options = $sending_profile->getOptions();
 
             try {
