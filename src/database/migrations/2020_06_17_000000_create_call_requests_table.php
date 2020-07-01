@@ -17,7 +17,7 @@ class CreateCallRequestsTable extends Migration {
             $table->id();
             $table->string('number', 16)->index();
             $table->string('caller_id', 16)->index();
-            $table->string('status', 10)->index();
+            $table->string('status', 20)->index();
             $table->text('raw_request');
             $table->timestamps();
             $table->softDeletes('deleted_at', 0);
